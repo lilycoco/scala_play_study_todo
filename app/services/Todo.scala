@@ -1,11 +1,9 @@
 package services
 
 import javax.inject.Inject
-
 import anorm.SqlParser._
 import anorm._
 import play.api.db.DBApi
-
 import scala.language.postfixOps
 
 case class Todo(id:Option[Long], name: String)
@@ -16,7 +14,8 @@ class TodoService @Inject() (dbapi: DBApi) {
   private val db = dbapi.database("default")
 
   val simple = {
-    get[String]("todo.name") map {
+    get[Option[Long]]("todo.id") ~
+      get[String]("todo.name") map {
       case id~name => Todo(id, name)
     }
   }
@@ -65,6 +64,12 @@ class TodoService @Inject() (dbapi: DBApi) {
         'id -> id,
         'name -> todo.name
       ).executeUpdate()
+    }
+  }
+
+  def delete(id: Long) = {
+    db.withConnection { implicit connection =>
+      SQL("delete from todo where id = {id}").on('id -> id).executeUpdate()
     }
   }
 
