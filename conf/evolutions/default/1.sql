@@ -12,5 +12,7 @@ insert into todo (id,name) values (1,'書類の整理');
 insert into todo (id,name) values (2,'本の返却');
 
 # --- !Downs
+-- Downsは手動では実行されず、Upsの内容が変更された際に実行されます。
+-- Downsが実行されてからUpsが実行されるため、結果としてデータベースのスキーマが更新されることになります。
 drop table if exists todo;
 drop sequence if exists todo_seq;
