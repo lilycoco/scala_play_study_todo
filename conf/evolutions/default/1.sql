@@ -8,8 +8,9 @@ create table todo (
 );
 
 create sequence todo_seq start with 1000;
-insert into todo (id,name) values (1,'書類の整理');
-insert into todo (id,name) values (2,'本の返却');
+insert into todo (id,name) values (1,'旅行の計画');
+insert into todo (id,name) values (2,'断捨離');
+insert into todo (id,name) values (3,'チケット予約');
 
 # --- !Downs
 -- Downsは手動では実行されず、Upsの内容が変更された際に実行されます。
