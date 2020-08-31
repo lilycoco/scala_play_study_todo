@@ -1,6 +1,6 @@
 #FileLock
-#Mon Aug 31 15:31:59 JST 2020
-server=192.168.0.8\:59917
+#Mon Aug 31 15:36:41 JST 2020
+server=192.168.0.8\:61108
 hostName=192.168.0.8
 method=file
-id=1744337085a7f1f284e28c015bdfb96c4aa8ec786e8
+id=174433b5630acef6bad689d7e20967eeba93bde1f8e

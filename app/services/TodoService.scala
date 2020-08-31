@@ -11,7 +11,7 @@ class TodoService @Inject() (dbapi: DBApi) {
 
   private val db = dbapi.database("default")
 
-  val simple = {
+  private val simple = {
     get[Option[Long]]("todo.id") ~
       get[String]("todo.name") map {
       case id~name => Todo(id, name)
@@ -22,7 +22,7 @@ class TodoService @Inject() (dbapi: DBApi) {
     db.withConnection { implicit connection =>
       SQL(
         """
-          select * from todo
+          SELECT * FROM todo
         """
       ).as(simple *)
     }
@@ -32,8 +32,8 @@ class TodoService @Inject() (dbapi: DBApi) {
     db.withConnection { implicit connection =>
       SQL(
         """
-        insert into todo
-        values ((select next value for todo_seq), {name})
+        INSERT INTO todo
+        VALUES ((SELECT NEXT VALUE FOR todo_seq), {name})
         """
       ).on(
         'name -> todo.name
@@ -43,7 +43,7 @@ class TodoService @Inject() (dbapi: DBApi) {
 
   def findById(id: Long): Option[Todo] = {
     db.withConnection { implicit connection =>
-      SQL("select * from todo where id = {id}")
+      SQL("SELECT * FROM todo WHERE id = {id}")
         .on('id -> id)
         .as(simple.singleOpt)
     }
@@ -53,9 +53,9 @@ class TodoService @Inject() (dbapi: DBApi) {
     db.withConnection { implicit connection =>
       SQL(
         """
-          update todo
-          set name = {name}
-          where id = {id}
+          UPDATE todo
+          SET name = {name}
+          WHERE id = {id}
         """
       ).on(
         'id -> id,
@@ -67,7 +67,7 @@ class TodoService @Inject() (dbapi: DBApi) {
   def delete(id: Long) = {
     db.withConnection { implicit connection =>
       SQL(
-        "delete from todo where id = {id}"
+        "DELETE FROM todo WHERE id = {id}"
       ).on('id -> id).executeUpdate()
     }
   }
