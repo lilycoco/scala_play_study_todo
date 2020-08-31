@@ -6,6 +6,14 @@
         @helper.inputText(todoForm("name"), '_label -> "Name")
     </fieldset>
     <input type="submit" value="更新">
+    }
+    @helper.form(action = routes.TodoController.todoDelete(id)) {
+    @helper.CSRF.formField
     <input type="submit" value="削除" class="btn danger">
     }
+}
+@import tags._
+
+@notice("error") { color =>
+Oops, something is <span style="color:@color">wrong</span>
 }

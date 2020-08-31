@@ -19,5 +19,16 @@ libraryDependencies ++= Seq(
   evolutions,
   "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test,
   "org.playframework.anorm" %% "anorm" % "2.6.4",
-  "com.h2database" % "h2" % "1.4.196"
+  "com.h2database" % "h2" % "1.4.196",
+  "org.skinny-framework" %% "skinny-orm"      % "3.0.3",
+  "ch.qos.logback"       %  "logback-classic" % "1.1.+"
 )
+
+// will be executed when invoking sbt console
+initialCommands := """
+import scalikejdbc._
+import skinny.orm._, feature._
+import org.joda.time._
+skinny.DBSettings.initialize()
+implicit val session = AutoSession
+"""

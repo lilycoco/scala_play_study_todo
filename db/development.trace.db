@@ -1,0 +1,10 @@
+2020-08-27 15:14:00 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Table "PLAY_EVOLUTIONS" not found; SQL statement:
+select id, hash, apply_script, revert_script, state, last_problem from play_evolutions where state like 'applying_%' [42102-196]
+2020-08-27 16:52:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "TODO" already exists; SQL statement:
+create table todo (
+id           bigint not null auto_increment,
+name         varchar(255) not null,
+constraint pk_todo primary key (id)
+) [42101-196]

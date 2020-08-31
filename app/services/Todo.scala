@@ -21,24 +21,21 @@ class TodoService @Inject() (dbapi: DBApi) {
   }
 
   def list(): Seq[Todo] = {
-
     db.withConnection { implicit connection =>
-
       SQL(
         """
           select * from todo
         """
       ).as(simple *)
-
     }
-
   }
 
   def insert(todo: Todo) = {
     db.withConnection { implicit connection =>
       SQL(
         """
-        insert into todo values ((select next value for todo_seq), {name})
+        insert into todo
+        values ((select next value for todo_seq), {name})
         """
       ).on(
         'name -> todo.name
@@ -48,7 +45,9 @@ class TodoService @Inject() (dbapi: DBApi) {
 
   def findById(id: Long): Option[Todo] = {
     db.withConnection { implicit connection =>
-      SQL("select * from todo where id = {id}").on('id -> id).as(simple.singleOpt)
+      SQL("select * from todo where id = {id}")
+        .on('id -> id)
+        .as(simple.singleOpt)
     }
   }
 
@@ -69,7 +68,9 @@ class TodoService @Inject() (dbapi: DBApi) {
 
   def delete(id: Long) = {
     db.withConnection { implicit connection =>
-      SQL("delete from todo where id = {id}").on('id -> id).executeUpdate()
+      SQL(
+        "delete from todo where id = {id}"
+      ).on('id -> id).executeUpdate()
     }
   }
 
