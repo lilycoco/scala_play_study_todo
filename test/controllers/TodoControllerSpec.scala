@@ -47,11 +47,4 @@ class TodoControllerSpec extends PlaySpec with Results with MockitoSugar with Gu
       bodyText mustBe "Hello World"
     }
   }
-
-  "TodoController#list" should {
-    "should be valid" in {
-      val result: Future[Result] = controller.list().apply(FakeRequest())
-      result mustBe "Hello World"
-    }
-  }
 }
