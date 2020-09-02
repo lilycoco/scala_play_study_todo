@@ -6,6 +6,12 @@ import play.api.data._
 import play.api.data.Forms._
 import services._
 
+class ExampleController(val controllerComponents: ControllerComponents) extends BaseController {
+  def index() = Action {
+    Ok("ok")
+  }
+}
+
 class TodoController @Inject()(val todoService: TodoService, mcc: MessagesControllerComponents) extends MessagesAbstractController(mcc) {
   def helloworld() = Action {
     Ok("Hello World")
