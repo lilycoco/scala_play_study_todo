@@ -6,9 +6,8 @@ import play.api.data._
 import play.api.data.Forms._
 import services._
 
-class TodoController @Inject()(todoService: TodoService, mcc: MessagesControllerComponents)
-  extends MessagesAbstractController(mcc) {
-  def helloworld() = Action { implicit request: MessagesRequest[AnyContent] =>
+class TodoController @Inject()(val todoService: TodoService, mcc: MessagesControllerComponents) extends MessagesAbstractController(mcc) {
+  def helloworld() = Action {
     Ok("Hello World")
   }
 
@@ -45,5 +44,4 @@ class TodoController @Inject()(todoService: TodoService, mcc: MessagesController
     todoService.delete(todoId)
     Redirect(routes.TodoController.list())
   }
-
 }
