@@ -7,14 +7,14 @@ import play.api.test._
 import play.api.test.Helpers._
 import org.scalatest.mock.MockitoSugar
 import services._
-
 import org.scalatestplus.play.guice._
 
 class ExampleControllerSpec extends PlaySpec with Results {
 
   "Example Page#index" should {
-    "should be valid" in {
-      val controller             = new ExampleController(Helpers.stubControllerComponents())
+    val controller   = new ExampleController(Helpers.stubControllerComponents())
+
+    "be valid" in {
       val result: Future[Result] = controller.index().apply(FakeRequest())
       val bodyText: String       = contentAsString(result)
       bodyText mustBe "ok"
@@ -25,25 +25,39 @@ class ExampleControllerSpec extends PlaySpec with Results {
 class TodoControllerSpec extends PlaySpec with Results with MockitoSugar with GuiceOneAppPerTest {
 
   val mockDataService = mock[TodoService]
-  val controller             = new TodoController(mockDataService, stubMessagesControllerComponents())
+  val controller      = new TodoController(mockDataService, stubMessagesControllerComponents())
 
-  "HelloController GET" must {
-    "「/todo」にGETメソッドでアクセスできる" in {
-      val request  = FakeRequest(GET, "/todo")
+  "TodoController#helloworld" should {
+    "access '/todo/helloworld' with GET method" in {
+      val request  = FakeRequest(GET, "/todo/helloworld")
       val response = route(app, request).get
 
       status(response) mustBe OK
     }
-  }
 
-  "TodoController#helloworld" should {
-    "should be valid" in {
-      System.out.println("bodyText")
+    "be valid" in {
       val result: Future[Result] = controller.helloworld().apply(FakeRequest())
       val bodyText: String       = contentAsString(result)
-      System.out.println(bodyText)
 
       bodyText mustBe "Hello World"
+    }
+  }
+
+  "TodoController#todoNew" should {
+    "access '/todo/new' with GET method" in {
+      val request  = FakeRequest(GET, "/todo/new")
+      val response = route(app, request).get
+      System.out.println(status(response))
+      status(response) mustBe OK
+    }
+
+    "be valid" in {
+      System.out.println("status(result)")
+      val result: Future[Result] = controller.todoNew().apply(FakeRequest())
+      print(result)
+      System.out.println(result)
+
+      status(result) mustBe OK
     }
   }
 }

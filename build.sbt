@@ -18,6 +18,7 @@ libraryDependencies ++= Seq(
   jdbc,
   evolutions,
   specs2 % Test,
+  filters,
   "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test,
   "org.playframework.anorm" %% "anorm" % "2.6.4",
   "com.h2database" % "h2" % "1.4.196",

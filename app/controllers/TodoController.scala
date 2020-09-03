@@ -6,14 +6,22 @@ import play.api.data._
 import play.api.data.Forms._
 import services._
 
+import play.api.http.HttpFilters
+import play.filters.csrf.CSRFFilter
+
+class Filters @Inject() (csrfFilter: CSRFFilter) extends HttpFilters {
+  def filters = Seq(csrfFilter)
+}
+
 class ExampleController(val controllerComponents: ControllerComponents) extends BaseController {
   def index() = Action {
     Ok("ok")
   }
 }
 
-class TodoController @Inject()(val todoService: TodoService, mcc: MessagesControllerComponents) extends MessagesAbstractController(mcc) {
-  def helloworld() = Action {
+class TodoController @Inject()(val todoService: TodoService, mcc: MessagesControllerComponents)
+  extends MessagesAbstractController(mcc) {
+  def helloworld() = Action { implicit request: MessagesRequest[AnyContent] =>
     Ok("Hello World")
   }
 
@@ -25,7 +33,7 @@ class TodoController @Inject()(val todoService: TodoService, mcc: MessagesContro
   val todoForm: Form[String] = Form("name" -> nonEmptyText)
 
   def todoNew = Action { implicit request: MessagesRequest[AnyContent] =>
-    Ok(views.html.createForm(todoForm))
+    Ok(views.html.createForm(Form("name" -> nonEmptyText)))
   }
 
   def todoAdd() = Action { implicit request: MessagesRequest[AnyContent] =>
