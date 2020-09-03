@@ -25,7 +25,6 @@ class ExampleControllerSpec extends PlaySpec with Results {
 class TodoControllerSpec extends PlaySpec with Results with MockitoSugar with GuiceOneAppPerTest {
 
   val mockDataService = mock[TodoService]
-  val mockDataComponent = mock[MessagesControllerComponents]
   val controller             = new TodoController(mockDataService, stubMessagesControllerComponents())
 
   "HelloController GET" must {
