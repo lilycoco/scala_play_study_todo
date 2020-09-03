@@ -26,7 +26,7 @@ class TodoControllerSpec extends PlaySpec with Results with MockitoSugar with Gu
 
   val mockDataService = mock[TodoService]
   val mockDataComponent = mock[MessagesControllerComponents]
-  val controller             = new TodoController(mockDataService, mockDataComponent)
+  val controller             = new TodoController(mockDataService, stubMessagesControllerComponents())
 
   "HelloController GET" must {
     "「/todo」にGETメソッドでアクセスできる" in {
