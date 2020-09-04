@@ -1,14 +1,13 @@
-@(id: Long, todoForm: Form[String])(implicit request: MessagesRequestHeader)
+@import helper._
+@(id: Long, todoForm: Form[String])(implicit requestHeader: MessagesRequestHeader)
 @main(title = "Update"){
-    @helper.form(action = routes.TodoController.todoUpdate(id)) {
-    @helper.CSRF.formField
+    @form(CSRF(routes.TodoController.todoUpdate(id))) {
     <fieldset>
-        @helper.inputText(todoForm("name"), '_label -> "Name")
+        @helper.inputText(todoForm("name"),  Symbol("_label") -> "Name")
     </fieldset>
     <input type="submit" value="更新">
     }
-    @helper.form(action = routes.TodoController.todoDelete(id)) {
-    @helper.CSRF.formField
+    @form(CSRF(routes.TodoController.todoDelete(id))) {
     <input type="submit" value="削除" class="btn danger">
     }
 }

@@ -1,11 +1,13 @@
 package controllers
 
+import javax.inject.Inject
+
 import scala.concurrent.Future
 import org.scalatestplus.play._
 import play.api.mvc._
 import play.api.test._
 import play.api.test.Helpers._
-import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import services._
 import org.scalatestplus.play.guice._
 
@@ -22,7 +24,8 @@ class ExampleControllerSpec extends PlaySpec with Results {
   }
 }
 
-class TodoControllerSpec extends PlaySpec with Results with MockitoSugar with GuiceOneAppPerTest {
+class TodoControllerSpec @Inject()(val todoService: TodoService)
+  extends PlaySpec with Results with MockitoSugar with GuiceOneAppPerTest {
 
   val mockDataService = mock[TodoService]
   val controller      = new TodoController(mockDataService, stubMessagesControllerComponents())
@@ -31,32 +34,28 @@ class TodoControllerSpec extends PlaySpec with Results with MockitoSugar with Gu
     "access '/todo/helloworld' with GET method" in {
       val request  = FakeRequest(GET, "/todo/helloworld")
       val response = route(app, request).get
-
       status(response) mustBe OK
     }
 
     "be valid" in {
       val result: Future[Result] = controller.helloworld().apply(FakeRequest())
       val bodyText: String       = contentAsString(result)
-
       bodyText mustBe "Hello World"
     }
   }
 
-  "TodoController#todoNew" should {
-    "access '/todo/new' with GET method" in {
-      val request  = FakeRequest(GET, "/todo/new")
-      val response = route(app, request).get
-      System.out.println(status(response))
-      status(response) mustBe OK
+  "TodoController#list" should {
+    "access '/todo' with GET method" in {
+      val controller2      = new TodoController(todoService, stubMessagesControllerComponents())
+      val result: Future[Result] = controller2.list().apply(FakeRequest())
+      status(result) mustBe OK
     }
+  }
 
+  "TodoController#todoNew" should {
     "be valid" in {
-      System.out.println("status(result)")
       val result: Future[Result] = controller.todoNew().apply(FakeRequest())
-      print(result)
       System.out.println(result)
-
       status(result) mustBe OK
     }
   }
